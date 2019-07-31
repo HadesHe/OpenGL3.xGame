@@ -1,5 +1,6 @@
 package com.example.soundmodule
 
+import android.content.Context
 import android.media.AudioAttributes
 import android.media.AudioManager
 import android.media.SoundPool
@@ -7,19 +8,30 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.Toast
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(v: View?) {
         when(v?.id){
             R.id.btnStart->{
-                // TODO: 2019-07-30 playsound 
+                playSound(1,0)
             }
             R.id.btnStop->{
-                
+                sp.stop(currStreamId)
+                Toast.makeText(baseContext,"Stop Music",Toast.LENGTH_SHORT).show()
             }
         }
     }
 
+    private fun playSound(soundNum: Int, loop: Int) {
+        val am=getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        val steamVolumeCirremt=am.getStreamVolume(AudioManager.STREAM_MUSIC)
+        val streamVolumeMax=am.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
+        val volumn=steamVolumeCirremt/streamVolumeMax
+        currStreamId=sp.play(hm[soundNum]!!,volumn.toFloat(),volumn.toFloat(),1,loop,1.0f)
+    }
+
+    private var currStreamId: Int=-1
     private lateinit var hm: HashMap<Int, Int>
     private lateinit var sp: SoundPool
     private val btnStart: Button by lazy {
