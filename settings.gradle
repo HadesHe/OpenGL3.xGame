@@ -1,1 +1,1 @@
-include ':app', ':soundmodule', ':baseopengl'
+include ':app', ':soundmodule', ':baseopengl', ':opengl3'

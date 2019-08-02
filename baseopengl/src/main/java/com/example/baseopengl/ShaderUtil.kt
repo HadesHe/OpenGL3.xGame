@@ -1,7 +1,12 @@
 package com.example.baseopengl
 
+import android.content.res.Resources
 import android.opengl.GLES30
 import android.util.Log
+import java.io.ByteArrayOutputStream
+import java.io.InputStream
+import java.lang.Exception
+import java.lang.RuntimeException
 
 object ShaderUtil {
     fun loadShader(shaderType:Int,source:String):Int{
@@ -35,9 +40,7 @@ object ShaderUtil {
         var program=GLES30.glCreateProgram()
         if(program!=0) {
             GLES30.glAttachShader(program,vertexShader)
-            checkGlError("glAttachShader")
             GLES30.glAttachShader(program,pixelShader)
-            checkGlError("glAttachShader")
             GLES30.glLinkProgram(program)
             val linkStatus=IntArray(1)
             GLES30.glGetProgramiv(program,GLES30.GL_LINK_STATUS,linkStatus,0)
@@ -49,5 +52,35 @@ object ShaderUtil {
             }
         }
         return program
+    }
+
+    fun loadFromAssetsFile(fname: String, r: Resources): String? {
+        var result:String?=null
+
+        if(fname== null){
+            return result
+        }
+        var buffer:ByteArray
+        var inputStream:InputStream?=null
+        try{
+            inputStream=r.assets.open(fname)
+            buffer= ByteArray(inputStream.available())
+            inputStream.read(buffer)
+
+            val os=ByteArrayOutputStream()
+            os.write(buffer)
+
+            os.close()
+
+            inputStream.close()
+
+            result=os.toString()
+
+
+        }catch (e:Exception){
+            inputStream=null
+        }
+
+        return result
     }
 }
