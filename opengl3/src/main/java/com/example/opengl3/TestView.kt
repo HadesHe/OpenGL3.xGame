@@ -16,7 +16,6 @@ class TestView(context: Context):GLSurfaceView(context) {
 
     private lateinit var rthread: RotateThread
     var mRenderer=SceneRenderer()
-    lateinit var tle:Triangle
     init{
         setEGLContextClientVersion(3)
         setRenderer(mRenderer)
@@ -24,6 +23,7 @@ class TestView(context: Context):GLSurfaceView(context) {
     }
 
     inner class SceneRenderer:GLSurfaceView.Renderer{
+        lateinit var tle:Triangle
         override fun onDrawFrame(gl: GL10?) {
             GLES30.glClear(GLES30.GL_DEPTH_BUFFER_BIT or GLES30.GL_COLOR_BUFFER_BIT)
             tle.drawSelf()
@@ -31,7 +31,7 @@ class TestView(context: Context):GLSurfaceView(context) {
 
         override fun onSurfaceChanged(gl: GL10?, width: Int, height: Int) {
             val ratio=width/height.toFloat()
-            Matrix.frustumM(Triangle.mProjMatrix,0,-ratio,ratio,-1.0f,1.0f,1.0f,10.0f)
+            Matrix.frustumM(Triangle.mProjectMatrix,0,-ratio,ratio,-1.0f,1.0f,1.0f,10.0f)
             Matrix.setLookAtM(Triangle.mVMatrix,0,0f,0f,3.0f,0f,0f,0f,0f,1.0f,0.0f)
         }
 

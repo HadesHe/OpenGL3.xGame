@@ -6,9 +6,8 @@ import android.util.Log
 import java.io.ByteArrayOutputStream
 import java.io.InputStream
 import java.lang.Exception
-import java.lang.RuntimeException
 
-object ShaderUtil {
+public object ShaderUtil {
     fun loadShader(shaderType:Int,source:String):Int{
         var shader=GLES30.glCreateShader(shaderType)
         if(shader!=0){
