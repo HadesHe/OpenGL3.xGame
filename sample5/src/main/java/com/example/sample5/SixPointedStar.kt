@@ -1,11 +1,24 @@
 package com.example.sample5
 
+import android.opengl.GLES30
+import android.opengl.Matrix
+import com.example.baseopengl.MatrixState
+import com.example.baseopengl.ShaderUtil
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.nio.FloatBuffer
 
 class SixPointedStar(var orthoView: OrthoView,var radiu:Float,var R:Float,var z:Float){
 
+    var xAngle=0.0f
+    var yAngle=0.0f
+    private var mMMatrix: FloatArray = FloatArray(16)
+    private var muMVPMatrixHandle: Int=0
+    private var maColorHandle: Int=0
+    private var maPositionHandle: Int=0
+    private var mProgram: Int = 0
+    private var mFragmentShader: String? = null
+    private var mVertexShader: String?=null
     private lateinit var mColorBuffer: FloatBuffer
     private lateinit var mVertexBuffer: FloatBuffer
     private var vCount: Int=0
@@ -18,6 +31,15 @@ class SixPointedStar(var orthoView: OrthoView,var radiu:Float,var R:Float,var z:
         initShader(orthoView)
     }
 
+    private fun initShader(orthoView: OrthoView) {
+        mVertexShader=ShaderUtil.loadFromAssetsFile("sixpointvert.glsl",orthoView.resources)
+        mFragmentShader=ShaderUtil.loadFromAssetsFile("sixpointfrag.glsl",orthoView.resources)
+        mProgram=ShaderUtil.createProgram(mVertexShader!!,mFragmentShader!!)
+        maPositionHandle=GLES30.glGetAttribLocation(mProgram,"aPosition")
+        maColorHandle=GLES30.glGetAttribLocation(mProgram,"aColor")
+        muMVPMatrixHandle=GLES30.glGetUniformLocation(mProgram,"uMVPMatrix")
+    }
+
     private fun initVertexData(radiu: Float, r: Float, z: Float) {
         var flist=ArrayList<Float>()
 
@@ -26,8 +48,8 @@ class SixPointedStar(var orthoView: OrthoView,var radiu:Float,var R:Float,var z:
             flist.add(0f)
             flist.add(z)
 
-            flist.add(((R* UNIT_SIZE*Math.cos(Math.toRadians(i.toDouble()))).toFloat()))
-            flist.add(((R* UNIT_SIZE*Math.sin(Math.toRadians(i.toDouble()))).toFloat()))
+            flist.add(((radiu* UNIT_SIZE*Math.cos(Math.toRadians(i.toDouble()))).toFloat()))
+            flist.add(((radiu* UNIT_SIZE*Math.sin(Math.toRadians(i.toDouble()))).toFloat()))
             flist.add(z)
 
             flist.add(((r* UNIT_SIZE*Math.cos(Math.toRadians((i+30f).toDouble()))).toFloat()))
@@ -42,8 +64,8 @@ class SixPointedStar(var orthoView: OrthoView,var radiu:Float,var R:Float,var z:
             flist.add(((r* UNIT_SIZE*Math.sin(Math.toRadians((i+30f).toDouble()))).toFloat()))
             flist.add(z)
 
-            flist.add(((R* UNIT_SIZE*Math.cos(Math.toRadians((i+60f).toDouble()))).toFloat()))
-            flist.add(((R* UNIT_SIZE*Math.sin(Math.toRadians((i+60f).toDouble()))).toFloat()))
+            flist.add(((radiu* UNIT_SIZE*Math.cos(Math.toRadians((i+60f).toDouble()))).toFloat()))
+            flist.add(((radiu* UNIT_SIZE*Math.sin(Math.toRadians((i+60f).toDouble()))).toFloat()))
             flist.add(z)
 
         }
@@ -83,5 +105,23 @@ class SixPointedStar(var orthoView: OrthoView,var radiu:Float,var R:Float,var z:
         mColorBuffer.put(colorArray)
         mColorBuffer.position(0)
 
+    }
+
+    fun drawSelf(index:Int=0) {
+        GLES30.glUseProgram(mProgram)
+        Matrix.setRotateM(mMMatrix,0,0f,0f,1f,0f)
+        Matrix.translateM(mMMatrix,0,0.05f*index,0f,1f)
+        Matrix.rotateM(mMMatrix,0,yAngle,0f,1f,0f)
+        Matrix.rotateM(mMMatrix,0,xAngle,1f,0f,0f)
+
+        GLES30.glUniformMatrix4fv(muMVPMatrixHandle,1,
+            false, MatrixState.getFinalMatrix(mMMatrix),0)
+        GLES30.glVertexAttribPointer(maPositionHandle,3,
+            GLES30.GL_FLOAT,false,3*4,mVertexBuffer)
+        GLES30.glVertexAttribPointer(maColorHandle,4,
+            GLES30.GL_FLOAT,false,4*4,mColorBuffer)
+        GLES30.glEnableVertexAttribArray(maPositionHandle)
+        GLES30.glEnableVertexAttribArray(maColorHandle)
+        GLES30.glDrawArrays(GLES30.GL_TRIANGLES,0,vCount)
     }
 }
