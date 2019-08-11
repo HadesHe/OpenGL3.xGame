@@ -107,10 +107,10 @@ class SixPointedStar(var orthoView: OrthoView,var radiu:Float,var R:Float,var z:
 
     }
 
-    fun drawSelf(index:Int=0) {
+    fun drawSelf(index:Float=0.0f) {
         GLES30.glUseProgram(mProgram)
         Matrix.setRotateM(mMMatrix,0,0f,0f,1f,0f)
-        Matrix.translateM(mMMatrix,0,0.05f*index,0f,1f)
+        Matrix.translateM(mMMatrix,0,index,0f,1f)
         Matrix.rotateM(mMMatrix,0,yAngle,0f,1f,0f)
         Matrix.rotateM(mMMatrix,0,xAngle,1f,0f,0f)
 

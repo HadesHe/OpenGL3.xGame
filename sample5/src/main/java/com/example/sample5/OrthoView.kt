@@ -14,6 +14,8 @@ class OrthoView(context:Context) :GLSurfaceView(context){
     private var mPreviousX=0
     private var mPreviousY=0
     private var mRenderer: OrthoViewRenderer
+    //正交视图与透视视图切换
+    private var useOrtho=true
 
     init {
         setEGLContextClientVersion(3)
@@ -50,21 +52,37 @@ class OrthoView(context:Context) :GLSurfaceView(context){
         override fun onDrawFrame(gl: GL10?) {
             GLES30.glClear(GLES30.GL_DEPTH_BUFFER_BIT or GLES30.GL_COLOR_BUFFER_BIT)
             ha.forEachIndexed { index, sixPointedStar ->
-                sixPointedStar.drawSelf(index)
+                if(useOrtho) {
+                    sixPointedStar.drawSelf(0.05f*index)
+                }else{
+                    sixPointedStar.drawSelf(0.2f*index)
+
+                }
             }
         }
 
         override fun onSurfaceChanged(gl: GL10?, width: Int, height: Int) {
             GLES30.glViewport(0,0,width, height)
             var ratio=width/height.toFloat()
-            MatrixState.setProjectOrtho(-ratio,ratio,-1f,1f,1f,10f)
-            MatrixState.setCamera(0f,0f,3f,0f,0f,0f,0f,1.0f,0.0f)
+
+            if(useOrtho) {
+                MatrixState.setProjectOrtho(-ratio, ratio, -1f, 1f, 1f, 10f)
+                MatrixState.setCamera(0f,0f,3f,0f,0f,0f,0f,1.0f,0.0f)
+            }else{
+                MatrixState.setProjectFrustum(-ratio*0.4f,ratio*0.4f,-1*0.4f,1*0.4f,1f,50f)
+                MatrixState.setCamera(0f,0f,6f,0f,0f,0f,0f,1.0f,0.0f)
+            }
         }
 
         override fun onSurfaceCreated(gl: GL10?, config: EGLConfig?) {
             GLES30.glClearColor(1.0f,1.0f,1.0f,1.0f)
+
             for(i in 0 until 6){
-                ha[i]=SixPointedStar(this@OrthoView,0.2f,0.5f,-0.3f*i)
+                if(useOrtho) {
+                    ha[i] = SixPointedStar(this@OrthoView, 0.2f, 0.5f, -0.3f * i)
+                }else{
+                    ha[i] = SixPointedStar(this@OrthoView, 0.4f, 1.0f, -1.0f * i)
+                }
             }
 
             GLES30.glEnable(GLES30.GL_DEPTH_TEST)
