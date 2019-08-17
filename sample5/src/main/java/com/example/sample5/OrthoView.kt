@@ -4,44 +4,48 @@ import android.content.Context
 import android.opengl.GLES30
 import android.opengl.GLSurfaceView
 import android.view.MotionEvent
+import com.example.baseopengl.BaseOpenGl3SurfaceView
 import com.example.baseopengl.MatrixState
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
-class OrthoView(context:Context) :GLSurfaceView(context){
+class OrthoView(context:Context) :BaseOpenGl3SurfaceView(context){
+    override fun getRender(): Renderer {
+        return OrthoViewRenderer()
+    }
 
     private val TOUCH_SCALE_FACTOR=180f/320
     private var mPreviousX=0
     private var mPreviousY=0
-    private var mRenderer: OrthoViewRenderer
+//    private var mRenderer: OrthoViewRenderer
     //正交视图与透视视图切换
     private var useOrtho=true
 
-    init {
-        setEGLContextClientVersion(3)
-        mRenderer=OrthoViewRenderer()
-        setRenderer(mRenderer)
-        renderMode= RENDERMODE_CONTINUOUSLY
-    }
+//    init {
+//        setEGLContextClientVersion(3)
+//        mRenderer=OrthoViewRenderer()
+//        setRenderer(mRenderer)
+//        renderMode= RENDERMODE_CONTINUOUSLY
+//    }
 
-    override fun onTouchEvent(event: MotionEvent?): Boolean {
-        var y=event?.y!!
-        var x=event?.x!!
-        event?.let {
-            when(it.action){
-                MotionEvent.ACTION_MOVE->{
-                    var dy=y - mPreviousY
-                    var dx=x - mPreviousX
-
-                    mRenderer.ha.forEach {
-                        it.yAngle+=dx*TOUCH_SCALE_FACTOR
-                        it.xAngle+=dy*TOUCH_SCALE_FACTOR
-                    }
-                }
-            }
-        }
-        return super.onTouchEvent(event)
-    }
+//    override fun onTouchEvent(event: MotionEvent?): Boolean {
+//        var y=event?.y!!
+//        var x=event?.x!!
+//        event?.let {
+//            when(it.action){
+//                MotionEvent.ACTION_MOVE->{
+//                    var dy=y - mPreviousY
+//                    var dx=x - mPreviousX
+//
+//                    mRenderer.ha.forEach {
+//                        it.yAngle+=dx*TOUCH_SCALE_FACTOR
+//                        it.xAngle+=dy*TOUCH_SCALE_FACTOR
+//                    }
+//                }
+//            }
+//        }
+//        return super.onTouchEvent(event)
+//    }
 
     inner class OrthoViewRenderer:Renderer{
 
