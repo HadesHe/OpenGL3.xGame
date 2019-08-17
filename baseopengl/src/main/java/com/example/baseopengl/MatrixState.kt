@@ -32,8 +32,8 @@ public object MatrixState {
     fun popMatrix(){
         for(i in 0 until 16){
             currMatrix[i]= mStack[statckTop][i]
-            statckTop--
         }
+        statckTop--
     }
 
     fun translate(x:Float,y:Float,z:Float){
