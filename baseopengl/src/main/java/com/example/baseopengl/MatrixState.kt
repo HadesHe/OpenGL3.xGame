@@ -56,6 +56,14 @@ public object MatrixState {
         Matrix.orthoM(mProjectMatrix, 0, left, right, bottom, top, near, far)
     }
 
+    fun scale(x:Float,y:Float,z:Float){
+        Matrix.scaleM(currMatrix,0,x,y,z)
+    }
+
+    fun rotate(angle:Float,x:Float,y:Float,z:Float){
+        Matrix.rotateM(currMatrix,0,angle,x,y,z)
+    }
+
     fun getFinalMatrix(spec: FloatArray): FloatArray {
         mMVPMatrix = FloatArray(16)
         Matrix.multiplyMM(mMVPMatrix, 0, mVMatrix, 0, spec, 0)
