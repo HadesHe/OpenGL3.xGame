@@ -28,13 +28,13 @@ class Belt(mv:BaseOpenGl3SurfaceView):BaseShape(mv){
         mProgram=ShaderUtil.createProgram(mVertexShader,mFragmentShader)
         maPositionHandle=GLES30.glGetAttribLocation(mProgram,"aPosition")
         maColorHandle=GLES30.glGetAttribLocation(mProgram,"aColor")
-        muMVPMatrixHandle=GLES30.glGetUniformLocation(mProgram,"mMVPMatrix")
+        muMVPMatrixHandle=GLES30.glGetUniformLocation(mProgram,"uMVPMatrix")
 
 
     }
 
     override fun initVertData() {
-        val n=6
+        val n=24
         vCount=2*(n+1)
         var angleBegin=-90f
         var angleEnd=90f
@@ -48,8 +48,8 @@ class Belt(mv:BaseOpenGl3SurfaceView):BaseShape(mv){
         while (angdeg <= angleEnd) {
             val angrad = Math.toRadians(angdeg.toDouble())//��ǰ����
             //��ǰ��
-            vertices[count++] = (- UNIT_SIZE * Math.sin(angrad)).toFloat()
-            vertices[count++] = ( UNIT_SIZE * Math.cos(angrad)).toFloat()
+            vertices[count++] = (-0.6f* UNIT_SIZE * Math.sin(angrad)).toFloat()
+            vertices[count++] = ( 0.6f*UNIT_SIZE * Math.cos(angrad)).toFloat()
             vertices[count++] = 0f//����z����
             //��ǰ��
             vertices[count++] = (-UNIT_SIZE * Math.sin(angrad)).toFloat()
@@ -66,7 +66,8 @@ class Belt(mv:BaseOpenGl3SurfaceView):BaseShape(mv){
 
         count=0
         var colors=FloatArray(vCount*4)
-        for (i in 0 until colors.size step 8 ){
+        var i = 0
+        while (i < colors.size) {
             colors[count++] = 1f
             colors[count++] = 1f
             colors[count++] = 1f
@@ -76,6 +77,7 @@ class Belt(mv:BaseOpenGl3SurfaceView):BaseShape(mv){
             colors[count++] = 1f
             colors[count++] = 1f
             colors[count++] = 0f
+            i += 8
         }
 
         mColorBuffer=ByteBuffer.allocateDirect(colors.size*4)

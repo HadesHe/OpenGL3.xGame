@@ -28,7 +28,6 @@ class BeltCubeView(context: Context) : BaseOpenGl3SurfaceView(context){
             MatrixState.translate(1.3f,0f,0f)
             circle.drawSelf()
             MatrixState.popMatrix()
-//            MatrixState.popMatrix()
         }
 
         override fun onSurfaceChanged(gl: GL10?, width: Int, height: Int) {
@@ -40,7 +39,7 @@ class BeltCubeView(context: Context) : BaseOpenGl3SurfaceView(context){
         }
 
         override fun onSurfaceCreated(gl: GL10?, config: EGLConfig?) {
-            GLES30.glClearColor(0.5f,0.5f,0.5f,1.0f)
+            GLES30.glClearColor(1.0f,1.0f,1.0f,1.0f)
             circle=Circle(this@BeltCubeView)
             belt=Belt(this@BeltCubeView)
             GLES30.glEnable(GLES30.GL_DEPTH_TEST)

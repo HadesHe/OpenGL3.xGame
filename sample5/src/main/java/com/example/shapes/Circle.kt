@@ -32,7 +32,7 @@ class Circle(mv: BaseOpenGl3SurfaceView) :BaseShape(mv){
     }
 
     override fun initVertData() {
-        val n=10
+        val n=40
         vCount=n+2
 
         val angleSpan=360f/n
