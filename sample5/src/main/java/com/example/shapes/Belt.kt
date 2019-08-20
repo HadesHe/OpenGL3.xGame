@@ -10,6 +10,7 @@ import java.nio.ByteOrder
 import java.nio.FloatBuffer
 
 class Belt(mv:BaseOpenGl3SurfaceView):BaseShape(mv){
+
     private var muMVPMatrixHandle: Int=0
     private var maColorHandle: Int=0
     private var maPositionHandle: Int=0
@@ -21,7 +22,7 @@ class Belt(mv:BaseOpenGl3SurfaceView):BaseShape(mv){
     private var vCount: Int=0
 
     override fun initShader(mv: BaseOpenGl3SurfaceView) {
-        mVertexShader=ShaderUtil.loadFromAssetsFile("beltvert.glsl",mv.resources)!!
+        mVertexShader=ShaderUtil.loadFromAssetsFile("beltvertex.glsl",mv.resources)!!
         mFragmentShader=ShaderUtil.loadFromAssetsFile("beltfrag.glsl",mv.resources)!!
 
         mProgram=ShaderUtil.createProgram(mVertexShader,mFragmentShader)
@@ -47,12 +48,12 @@ class Belt(mv:BaseOpenGl3SurfaceView):BaseShape(mv){
         while (angdeg <= angleEnd) {
             val angrad = Math.toRadians(angdeg.toDouble())//��ǰ����
             //��ǰ��
-            vertices[count++] = (-0.6f * UNIT_SIZE * Math.sin(angrad)) as Float//����x����
-            vertices[count++] = (0.6f * UNIT_SIZE * Math.cos(angrad)) as Float//����y����
+            vertices[count++] = (- UNIT_SIZE * Math.sin(angrad)).toFloat()
+            vertices[count++] = ( UNIT_SIZE * Math.cos(angrad)).toFloat()
             vertices[count++] = 0f//����z����
             //��ǰ��
-            vertices[count++] = (-UNIT_SIZE * Math.sin(angrad)) as Float//����x����
-            vertices[count++] = (UNIT_SIZE * Math.cos(angrad)) as Float//����y����
+            vertices[count++] = (-UNIT_SIZE * Math.sin(angrad)).toFloat()
+            vertices[count++] = (UNIT_SIZE * Math.cos(angrad)).toFloat()
             vertices[count++] = 0f//����z����
             angdeg += angleSpan
         }

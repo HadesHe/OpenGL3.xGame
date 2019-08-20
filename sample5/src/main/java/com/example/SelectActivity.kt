@@ -8,6 +8,7 @@ import android.widget.Button
 import com.example.activitys.TanslateActivity
 import com.example.sample5.MainActivity
 import com.example.sample5.R
+import com.example.shapes.BeltCubeActivity
 
 class SelectActivity :AppCompatActivity(), View.OnClickListener {
     override fun onClick(v: View?) {
@@ -18,6 +19,10 @@ class SelectActivity :AppCompatActivity(), View.OnClickListener {
             }
             R.id.btnMain ->{
                 val intent=Intent(this, MainActivity::class.java)
+                startActivity(intent)
+            }
+            R.id.btnBelt ->{
+                val intent=Intent(this,BeltCubeActivity::class.java)
                 startActivity(intent)
             }
         }
@@ -31,12 +36,17 @@ class SelectActivity :AppCompatActivity(), View.OnClickListener {
         findViewById(R.id.btnMain) as Button
     }
 
+    private val btnBelt: Button by lazy {
+        findViewById(R.id.btnBelt) as Button
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_select)
 
         btnTanslate.setOnClickListener(this)
         btnMain.setOnClickListener(this)
+        btnBelt.setOnClickListener(this)
     }
 
 }

@@ -18,6 +18,7 @@
             </intent-filter>
         </activity>
         <activity android:name="com.example.activitys.TanslateActivity"/>
+        <activity android:name="com.example.shapes.BeltCubeActivity"/>
     </application>
 
 </manifest>
