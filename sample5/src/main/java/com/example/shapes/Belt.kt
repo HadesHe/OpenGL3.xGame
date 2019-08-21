@@ -9,7 +9,7 @@ import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.nio.FloatBuffer
 
-class Belt(mv:BaseOpenGl3SurfaceView):BaseShape(mv){
+open class Belt(mv:BaseOpenGl3SurfaceView):BaseShape(mv){
 
     private var muMVPMatrixHandle: Int=0
     private var maColorHandle: Int=0
@@ -17,9 +17,9 @@ class Belt(mv:BaseOpenGl3SurfaceView):BaseShape(mv){
     private var mProgram: Int=0
     private lateinit var mFragmentShader: String
     private lateinit var mVertexShader: String
-    private lateinit var mColorBuffer: FloatBuffer
-    private lateinit var mVertexBuffer: FloatBuffer
-    private var vCount: Int=0
+    protected lateinit var mColorBuffer: FloatBuffer
+    protected lateinit var mVertexBuffer: FloatBuffer
+    protected var vCount: Int=0
 
     override fun initShader(mv: BaseOpenGl3SurfaceView) {
         mVertexShader=ShaderUtil.loadFromAssetsFile("beltvertex.glsl",mv.resources)!!

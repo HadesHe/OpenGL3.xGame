@@ -6,6 +6,7 @@ import com.example.baseopengl.BaseOpenGl3SurfaceView
 import com.example.baseopengl.MatrixState
 import com.example.shapes.Belt
 import com.example.shapes.Circle
+import com.example.shapes.CrossBelt
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
@@ -41,7 +42,7 @@ class BeltCubeView(context: Context) : BaseOpenGl3SurfaceView(context){
         override fun onSurfaceCreated(gl: GL10?, config: EGLConfig?) {
             GLES30.glClearColor(1.0f,1.0f,1.0f,1.0f)
             circle=Circle(this@BeltCubeView)
-            belt=Belt(this@BeltCubeView)
+            belt=CrossBelt(this@BeltCubeView)
             GLES30.glEnable(GLES30.GL_DEPTH_TEST)
             GLES30.glEnable(GLES30.GL_CULL_FACE)
         }
