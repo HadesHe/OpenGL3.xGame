@@ -9,16 +9,16 @@ import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.nio.FloatBuffer
 
-class Circle(mv: BaseOpenGl3SurfaceView) :BaseShape(mv){
+open class Circle(mv: BaseOpenGl3SurfaceView) :BaseShape(mv){
 
-    private var muMVPMatrixHandle: Int=0
-    private var maColorHandle: Int=0
-    private var maPositionHandle: Int=0
-    private var mProgram: Int=0
+    protected var muMVPMatrixHandle: Int=0
+    protected var maColorHandle: Int=0
+    protected var maPositionHandle: Int=0
+    protected var mProgram: Int=0
     private lateinit var mFragmentShader: String
     private lateinit var mVertexShader: String
-    private lateinit var mColorBuffer: FloatBuffer
-    private lateinit var mVertexBuffer: FloatBuffer
+    protected lateinit var mColorBuffer: FloatBuffer
+    protected lateinit var mVertexBuffer: FloatBuffer
     private var vCount: Int=0
 
     override fun initShader(mv: BaseOpenGl3SurfaceView) {
@@ -32,7 +32,7 @@ class Circle(mv: BaseOpenGl3SurfaceView) :BaseShape(mv){
     }
 
     override fun initVertData() {
-        val n=40
+        val n=10
         vCount=n+2
 
         val angleSpan=360f/n
