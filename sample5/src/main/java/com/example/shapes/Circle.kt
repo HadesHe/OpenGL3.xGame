@@ -19,7 +19,7 @@ open class Circle(mv: BaseOpenGl3SurfaceView) :BaseShape(mv){
     private lateinit var mVertexShader: String
     protected lateinit var mColorBuffer: FloatBuffer
     protected lateinit var mVertexBuffer: FloatBuffer
-    private var vCount: Int=0
+    protected var vCount: Int=0
 
     override fun initShader(mv: BaseOpenGl3SurfaceView) {
         mVertexShader=ShaderUtil.loadFromAssetsFile("beltvertex.glsl",mv.resources)!!

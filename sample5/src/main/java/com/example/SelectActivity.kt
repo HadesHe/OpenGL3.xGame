@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.Button
+import com.example.activitys.DrawRangeElementActivity
 import com.example.activitys.TanslateActivity
 import com.example.sample5.MainActivity
 import com.example.sample5.R
@@ -25,6 +26,10 @@ class SelectActivity :AppCompatActivity(), View.OnClickListener {
                 val intent=Intent(this,BeltCubeActivity::class.java)
                 startActivity(intent)
             }
+            R.id.btnDrawRange->{
+                val intent=Intent(this,DrawRangeElementActivity::class.java)
+                startActivity(intent)
+            }
         }
     }
 
@@ -39,6 +44,10 @@ class SelectActivity :AppCompatActivity(), View.OnClickListener {
     private val btnBelt: Button by lazy {
         findViewById(R.id.btnBelt) as Button
     }
+    private val btnDrawRange: Button by lazy {
+        findViewById(R.id.btnDrawRange) as Button
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +56,7 @@ class SelectActivity :AppCompatActivity(), View.OnClickListener {
         btnTanslate.setOnClickListener(this)
         btnMain.setOnClickListener(this)
         btnBelt.setOnClickListener(this)
+        btnDrawRange.setOnClickListener(this)
     }
 
 }

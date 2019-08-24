@@ -15,4 +15,8 @@ abstract class BaseShape(val mv:BaseOpenGl3SurfaceView) {
 
     abstract fun drawSelf()
 
+    open fun drawSelf(start:Int=0, end:Int=0){
+
+    }
+
 }
