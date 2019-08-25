@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.Button
+import com.example.activitys.CameraAcitivity
 import com.example.activitys.DrawRangeElementActivity
 import com.example.activitys.LayoutActivity
 import com.example.activitys.TanslateActivity
@@ -39,6 +40,10 @@ class SelectActivity :AppCompatActivity(), View.OnClickListener {
                 val intent=Intent(this,LayoutActivity::class.java)
                 startActivity(intent)
             }
+            R.id.btnCamera->{
+                val intent=Intent(this,CameraAcitivity::class.java)
+                startActivity(intent)
+            }
         }
     }
 
@@ -61,6 +66,9 @@ class SelectActivity :AppCompatActivity(), View.OnClickListener {
         findViewById(R.id.btnLayout) as Button
     }
 
+    private val btnCamera: Button by lazy {
+        findViewById(R.id.btnCamera) as Button
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,6 +79,7 @@ class SelectActivity :AppCompatActivity(), View.OnClickListener {
         btnBelt.setOnClickListener(this)
         btnDrawRange.setOnClickListener(this)
         btnLayout.setOnClickListener(this)
+        btnCamera.setOnClickListener(this)
     }
 
 }

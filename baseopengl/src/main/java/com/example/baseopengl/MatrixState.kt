@@ -84,4 +84,8 @@ public object MatrixState {
 
     }
 
+    fun getMMatrix(): FloatArray {
+        return currMatrix
+    }
+
 }
