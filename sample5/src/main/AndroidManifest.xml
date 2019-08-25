@@ -20,6 +20,7 @@
         <activity android:name="com.example.activitys.TanslateActivity"/>
         <activity android:name="com.example.shapes.BeltCubeActivity"/>
         <activity android:name="com.example.activitys.DrawRangeElementActivity"/>
+        <activity android:name="com.example.activitys.LayoutActivity"/>
     </application>
 
 </manifest>

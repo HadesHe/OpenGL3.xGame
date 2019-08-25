@@ -2,34 +2,16 @@ package com.example.shapes
 
 import android.opengl.GLES30
 import com.example.baseopengl.BaseOpenGl3SurfaceView
-import com.example.baseopengl.BaseShape
 import com.example.baseopengl.MatrixState
 import com.example.baseopengl.ShaderUtil
+import java.nio.Buffer
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
-import java.nio.FloatBuffer
 
-open class Circle(mv: BaseOpenGl3SurfaceView) :BaseShape(mv){
+class LayoutCircle(mv:BaseOpenGl3SurfaceView) :Circle(mv){
 
-    protected var muMVPMatrixHandle: Int=0
-    protected var maColorHandle: Int=0
-    protected var maPositionHandle: Int=0
-    protected var mProgram: Int=0
-    protected lateinit var mFragmentShader: String
-    protected lateinit var mVertexShader: String
-    protected lateinit var mColorBuffer: FloatBuffer
-    protected lateinit var mVertexBuffer: FloatBuffer
-    protected var vCount: Int=0
-
-    override fun initShader(mv: BaseOpenGl3SurfaceView) {
-        mVertexShader=ShaderUtil.loadFromAssetsFile("beltvertex.glsl",mv.resources)!!
-        mFragmentShader=ShaderUtil.loadFromAssetsFile("beltfrag.glsl",mv.resources)!!
-
-        mProgram=ShaderUtil.createProgram(mVertexShader,mFragmentShader)
-        maPositionHandle=GLES30.glGetAttribLocation(mProgram,"aPosition")
-        maColorHandle=GLES30.glGetAttribLocation(mProgram,"aColor")
-        muMVPMatrixHandle=GLES30.glGetUniformLocation(mProgram,"uMVPMatrix")
-    }
+    private var iCount: Int=0
+    private lateinit var mIndexBuffer: Buffer
 
     override fun initVertData() {
         val n=10
@@ -53,7 +35,7 @@ open class Circle(mv: BaseOpenGl3SurfaceView) :BaseShape(mv){
             angdeg += angleSpan
         }
 
-        mVertexBuffer=ByteBuffer.allocateDirect(vertices.size*4)
+        mVertexBuffer= ByteBuffer.allocateDirect(vertices.size*4)
             .order(ByteOrder.nativeOrder())
             .asFloatBuffer()
         mVertexBuffer.put(vertices)
@@ -76,37 +58,46 @@ open class Circle(mv: BaseOpenGl3SurfaceView) :BaseShape(mv){
             i += 4
         }
 
-        mColorBuffer=ByteBuffer.allocateDirect(colors.size*4)
+        mColorBuffer= ByteBuffer.allocateDirect(colors.size*4)
             .order(ByteOrder.nativeOrder())
             .asFloatBuffer()
         mColorBuffer.put(colors)
         mColorBuffer.position(0)
+
+        iCount=vCount
+        val incides=ByteArray(iCount)
+
+        for(i in 0 until iCount){
+            incides[i]=i.toByte()
+        }
+
+        mIndexBuffer= ByteBuffer.allocateDirect(incides.size)
+            .put(incides)
+            .position(0)
+    }
+
+    override fun initShader(mv: BaseOpenGl3SurfaceView) {
+        mVertexShader=ShaderUtil.loadFromAssetsFile("layoutvertex.glsl",mv.resources)!!
+        mFragmentShader=ShaderUtil.loadFromAssetsFile("layoutfrag.glsl",mv.resources)!!
+
+        mProgram=ShaderUtil.createProgram(mVertexShader,mFragmentShader)
+        muMVPMatrixHandle=GLES30.glGetUniformLocation(mProgram,"uMVPMatrix")
+        //将顶点位置属性变量索引与顶点着色器中变量名进行绑定
+        GLES30.glBindAttribLocation(mProgram,1,"aPosition")
+        GLES30.glBindAttribLocation(mProgram,2,"aColor")
     }
 
     override fun drawSelf() {
         GLES30.glUseProgram(mProgram)
         GLES30.glUniformMatrix4fv(muMVPMatrixHandle,1,false,MatrixState.getFinalMatrix(),0)
-        GLES30.glVertexAttribPointer(
-            maPositionHandle,
-            3,
-            GLES30.GL_FLOAT,
-            false,
-            3*4,
-            mVertexBuffer
-        )
-        GLES30.glVertexAttribPointer(
-            maColorHandle,
-            4,
-            GLES30.GL_FLOAT,
-            false,
-            4*4,
-            mColorBuffer
-        )
+        GLES30.glVertexAttribPointer(1,3,GLES30.GL_FLOAT,false,3*4,mVertexBuffer)
+        GLES30.glVertexAttribPointer(2,4,GLES30.GL_FLOAT,false,4*4,mColorBuffer)
 
-        GLES30.glEnableVertexAttribArray(maPositionHandle)
-        GLES30.glEnableVertexAttribArray(maColorHandle)
-        GLES30.glDrawArrays(GLES30.GL_TRIANGLE_FAN,
-            0,vCount)
+        GLES30.glEnableVertexAttribArray(1)
+        GLES30.glEnableVertexAttribArray(2)
+
+        GLES30.glDrawElements(GLES30.GL_TRIANGLE_FAN,iCount,
+            GLES30.GL_UNSIGNED_BYTE,mIndexBuffer)
     }
 
 }
