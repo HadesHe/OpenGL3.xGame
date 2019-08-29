@@ -14,3 +14,6 @@
      circle=DrawElementCircle(this@BeltCubeView)//GLE30.glDrawElement
 ```
 - GLE30.glDrawELement()增加了索引数组
+
+## 3 背面剪裁 ##
+- 渲染管线在对构成立体物体的三角形图元进行绘制时，仅当摄像机观察点位于三角形正面的情况下才绘制三角形，若观察点位于背面则不进行绘制
