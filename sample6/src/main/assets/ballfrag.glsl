@@ -15,10 +15,10 @@ void main() {
 
     int whichColor=int(mod(float(i+j+k),2.0));
     if(whichColor==1){
-        color=vec3(0.678,0.231f,0.129);//红色
+        color=vec3(0,0,0);//红色
     }else{
-        color=vec3(1.0,1.0,1.0);//白色
+        color=vec3(0.9,0.9,0.9);//白色
     }
-    fragColor=vec4(color,0);
+    fragColor=vec4(color,1);
 
 }

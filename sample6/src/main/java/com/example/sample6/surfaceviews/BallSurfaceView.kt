@@ -2,6 +2,7 @@ package com.example.sample6.surfaceviews
 
 import android.content.Context
 import android.opengl.GLES30
+import android.opengl.GLSurfaceView
 import android.view.MotionEvent
 import com.example.baseopengl.BaseOpenGl3SurfaceView
 import com.example.baseopengl.MatrixState
@@ -9,15 +10,20 @@ import com.example.sample6.shapes.Ball
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
-class BallSurfaceView(context: Context) :BaseOpenGl3SurfaceView(context){
+class BallSurfaceView(context: Context) :GLSurfaceView(context){
+    private var mRender: BallRender
     private val TOUCH_SCALE_FACTOR=180/320.toFloat()
     private var mPreviousX=0f
     private var mPreviousY=0f
     private lateinit var ball: Ball
 
-    override fun getRender(): Renderer {
-        return BallRender()
+    init {
+        setEGLContextClientVersion(3)
+        mRender=BallRender()
+        setRenderer(mRender)
+        renderMode=GLSurfaceView.RENDERMODE_CONTINUOUSLY
     }
+
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         val y=event?.y!!

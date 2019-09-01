@@ -5,12 +5,13 @@ import com.example.baseopengl.BaseOpenGl3SurfaceView
 import com.example.baseopengl.BaseShape
 import com.example.baseopengl.MatrixState
 import com.example.baseopengl.ShaderUtil
+import com.example.sample6.surfaceviews.BallSurfaceView
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.nio.FloatBuffer
 import java.util.ArrayList
 
-class Ball(mv: BaseOpenGl3SurfaceView) :BaseShape(mv){
+class Ball(mv: BallSurfaceView) {
     private var muRHandle: Int=0
     private var muMVPMatrixHandle: Int=0
     private var maPositionHandle: Int=0
@@ -23,8 +24,15 @@ class Ball(mv: BaseOpenGl3SurfaceView) :BaseShape(mv){
     var xAngle=0f
     var yAngle=0f
     var zAngle=0f
+    val UNIT_SIZE=1f
 
-    override fun initShader(mv: BaseOpenGl3SurfaceView) {
+    init {
+        initVertData()
+        initShader(mv)
+    }
+
+
+     fun initShader(mv: BallSurfaceView) {
         mVertextShader=ShaderUtil.loadFromAssetsFile("ballvert.glsl",mv.resources)!!
         mFragmentShader=ShaderUtil.loadFromAssetsFile("ballfrag.glsl",mv.resources)!!
         mProgram=ShaderUtil.createProgram(mVertextShader,mFragmentShader)
@@ -34,9 +42,9 @@ class Ball(mv: BaseOpenGl3SurfaceView) :BaseShape(mv){
         muRHandle=GLES30.glGetUniformLocation(mProgram,"uR")
     }
 
-    override fun initVertData() {
+    fun initVertData() {
         val alVertix = ArrayList<Float>()// ��Ŷ��������ArrayList
-        val angleSpan = 10// ������е�λ�зֵĽǶ�
+        val angleSpan = 1// ������е�λ�зֵĽǶ�
         var vAngle = -90
         while (vAngle < 90)
         // ��ֱ����angleSpan��һ��
@@ -137,7 +145,7 @@ class Ball(mv: BaseOpenGl3SurfaceView) :BaseShape(mv){
 
     }
 
-    override fun drawSelf() {
+    fun drawSelf() {
         MatrixState.rotate(xAngle,1f,0f,0f)
         MatrixState.rotate(yAngle,0f,1f,0f)
         MatrixState.rotate(zAngle,0f,0f,1f)
