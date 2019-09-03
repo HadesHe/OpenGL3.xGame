@@ -1,9 +1,8 @@
 #version 300 es
 precision mediump float;
 uniform float uR;//球半径
-in vec2 mcLongLat;
 in vec3 vPosition;
-in vec4 vAmbient;//接受点着色器过来的环境光强度
+in vec4 vDiffuse;//接受点着色器过来的环境光强度
 out vec4 fragColor;
 
 void main() {
@@ -21,6 +20,6 @@ void main() {
         color=vec3(0.9,0.9,0.9);//白色
     }
     vec4 finalColor=vec4(color,1);
-    fragColor=finalColor*vAmbient;
+    fragColor=finalColor*vDiffuse;
 
 }

@@ -1,6 +1,9 @@
 package com.example.baseopengl
 
 import android.opengl.Matrix
+import java.nio.ByteBuffer
+import java.nio.ByteOrder
+import java.nio.FloatBuffer
 
 /**
  * 首先调用 setInitStack 初始化当前矩阵，否则可能会造成程序不能正常运行
@@ -11,6 +14,13 @@ public object MatrixState {
     private var mVMatrix = FloatArray(16)
     private var mMVPMatrix = FloatArray(16)
     private var currMatrix=FloatArray(16)
+
+    //散射光光源
+    var lightLocation= floatArrayOf(0f,0f,0f)
+    //光源位置的缓冲
+    var lightPositionFB:FloatBuffer?=null
+    //待用的字节缓冲
+    var llbbL=ByteBuffer.allocateDirect(3*4)
 
     var statckTop=-1
     var mStack:Array<FloatArray> = Array(10){FloatArray(16)}
@@ -86,6 +96,21 @@ public object MatrixState {
 
     fun getMMatrix(): FloatArray {
         return currMatrix
+    }
+
+    //设置散射光源
+    fun setLightLocation(x:Float,y: Float,z: Float){
+        llbbL.clear()
+        lightLocation[0]=x
+        lightLocation[1]=y
+        lightLocation[2]=z
+
+        llbbL.order(ByteOrder.nativeOrder())
+        lightPositionFB= llbbL.asFloatBuffer()
+        lightPositionFB?.let {
+            it.put(lightLocation)
+            it.position(0)
+        }
     }
 
 }

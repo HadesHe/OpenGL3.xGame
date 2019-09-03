@@ -16,7 +16,7 @@ class BallSurfaceView(context: Context) :GLSurfaceView(context){
     private var mPreviousX=0f
     private var mPreviousY=0f
     private lateinit var ball: Ball
-    var lightOffset=1f
+    var lightOffset=-4f
 
     init {
         setEGLContextClientVersion(3)
@@ -46,6 +46,7 @@ class BallSurfaceView(context: Context) :GLSurfaceView(context){
     inner class BallRender:Renderer{
         override fun onDrawFrame(gl: GL10?) {
             GLES30.glClear(GLES30.GL_DEPTH_BUFFER_BIT or GLES30.GL_COLOR_BUFFER_BIT)
+            MatrixState.setLightLocation(lightOffset,0f,1.5f)
             MatrixState.pushMatrix()
             MatrixState.pushMatrix()
 

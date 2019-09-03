@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
             setOnSeekBarChangeListener(object :SeekBar.OnSeekBarChangeListener{
                 override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                     seekBar?.let {
-                        mGLSurfaceView.lightOffset=((progress)/(it.max)*1f)
+                        mGLSurfaceView.lightOffset=((it.max/2.0f-progress)/(it.max/2.0f)*-4f)
                     }
 
                 }
