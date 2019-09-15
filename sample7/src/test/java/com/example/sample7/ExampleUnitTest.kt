@@ -14,4 +14,13 @@ class ExampleUnitTest {
     fun addition_isCorrect() {
         assertEquals(4, 2 + 2)
     }
+
+    @Test
+    fun testMinus(){
+        val left=180
+        val right=320
+        println(left/right.toFloat())
+        println(left/right)
+        println(left.toFloat()/right)
+    }
 }
