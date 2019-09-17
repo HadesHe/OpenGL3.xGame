@@ -24,11 +24,7 @@ class RepeatView(context: Context):BaseOpenGl3SurfaceView(context) {
     private var mPreviousX:Float=0f
     private var mPreviousY: Float=0f
 
-    var texRect= arrayOf(
-        TextureRect(this@RepeatView,1f,1f),
-        TextureRect(this@RepeatView,4f,2f),
-        TextureRect(this@RepeatView,4f,4f)
-    )
+    var texRect= Array<TextureRect?>(3,{null})
     override fun getRender(): Renderer {
         return RepeatRenderer()
     }
@@ -42,9 +38,11 @@ class RepeatView(context: Context):BaseOpenGl3SurfaceView(context) {
                     var dy=y-mPreviousY
                     var dx=x-mPreviousX
 
-                    texRect.forEach {
-                        it.yAngle+=dx*TOUCH_SCALE_FACTOR
-                        it.zAngle+=dy*TOUCH_SCALE_FACTOR
+                    texRect?.let {
+                        it.forEach {
+                            it!!.yAngle += dx * TOUCH_SCALE_FACTOR
+                            it!!.zAngle += dy * TOUCH_SCALE_FACTOR
+                        }
                     }
 
                 }
@@ -59,7 +57,7 @@ class RepeatView(context: Context):BaseOpenGl3SurfaceView(context) {
     inner class RepeatRenderer : Renderer {
         override fun onDrawFrame(gl: GL10?) {
             GLES30.glClear(GLES30.GL_DEPTH_BUFFER_BIT or GLES30.GL_COLOR_BUFFER_BIT)
-            texRect[trIndex].drawSelf(currTextureId)
+            texRect[trIndex]?.drawSelf(currTextureId)
         }
 
         override fun onSurfaceChanged(gl: GL10?, width: Int, height: Int) {
@@ -70,7 +68,11 @@ class RepeatView(context: Context):BaseOpenGl3SurfaceView(context) {
         }
 
         override fun onSurfaceCreated(gl: GL10?, config: EGLConfig?) {
-            GLES30.glClearColor(0.5f,0.5f,0.5f,1.0f)
+            GLES30.glClearColor(1f,1f,1f,1.0f)
+
+            texRect[0]=TextureRect(this@RepeatView,1f,1f)
+            texRect[1]=TextureRect(this@RepeatView,4f,2f)
+            texRect[2]=TextureRect(this@RepeatView,4f,4f)
 
             GLES30.glEnable(GLES30.GL_DEPTH_TEST)
             textureCTId=initTexture(1)
@@ -118,7 +120,7 @@ class RepeatView(context: Context):BaseOpenGl3SurfaceView(context) {
         }
 
         //ͨ������������ͼƬ===============begin===================
-        val `is` = this.resources.openRawResource(R.raw.robot)
+        val `is` = this.resources.openRawResource(R.raw.timg2)
         val bitmapTmp: Bitmap
         try {
             bitmapTmp = BitmapFactory.decodeStream(`is`)
