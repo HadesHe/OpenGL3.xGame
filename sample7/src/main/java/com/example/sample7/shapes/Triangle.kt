@@ -60,8 +60,8 @@ class Triangle(mv:BaseOpenGl3SurfaceView) :BaseShape(mv){
         mTexCoorBuffer=ByteBuffer.allocateDirect(texCoor.size*4)
             .order(ByteOrder.nativeOrder())
             .asFloatBuffer()
-        mVertexBuffer.put(texCoor)
-        mVertexBuffer.position(0)
+        mTexCoorBuffer.put(texCoor)
+        mTexCoorBuffer.position(0)
 
     }
 
