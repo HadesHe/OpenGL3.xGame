@@ -17,10 +17,23 @@ class ExampleUnitTest {
 
     @Test
     fun testMinus(){
-        val left=180
-        val right=320
-        println(left/right.toFloat())
-        println(left/right)
-        println(left.toFloat()/right)
+
+        var b=B(1,2)
+    }
+
+    abstract class A(a:Int){
+
+        init {
+            println("inint A")
+            a()
+        }
+        abstract fun a()
+    }
+
+    class B(a: Int,var b:Int):A(a){
+        override fun a() {
+            println("b $b")
+        }
+
     }
 }

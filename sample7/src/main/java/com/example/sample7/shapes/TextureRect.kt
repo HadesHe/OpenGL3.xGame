@@ -2,6 +2,7 @@ package com.example.sample7.shapes
 
 import android.opengl.GLES30
 import android.opengl.Matrix
+import android.util.Log
 import com.example.baseopengl.BaseOpenGl3SurfaceView
 import com.example.baseopengl.BaseShape
 import com.example.baseopengl.MatrixState
@@ -10,7 +11,7 @@ import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.nio.FloatBuffer
 
-class TextureRect(mv:BaseOpenGl3SurfaceView,val sRange:Float,val tRange:Float):BaseShape(mv){
+class TextureRect(val mv:BaseOpenGl3SurfaceView,var sRange:Float,var tRange:Float){
     private var muMVPMatrixHandle: Int=0
     private var maTexCoorHandle: Int=0
     private var maPositionHandle: Int=0
@@ -29,7 +30,12 @@ class TextureRect(mv:BaseOpenGl3SurfaceView,val sRange:Float,val tRange:Float):B
         var mMMatrix=FloatArray(16)
     }
 
-    override fun initShader(mv: BaseOpenGl3SurfaceView) {
+    init {
+        initShader(mv)
+        initVertData()
+    }
+
+    fun initShader(mv: BaseOpenGl3SurfaceView) {
         mVertexShader= ShaderUtil.loadFromAssetsFile("vertex.glsl",mv.resources)!!
         mFragmentShader=ShaderUtil.loadFromAssetsFile("frag.glsl",mv.resources)!!
         mProgram=ShaderUtil.createProgram(mVertexShader,mFragmentShader)
@@ -40,7 +46,7 @@ class TextureRect(mv:BaseOpenGl3SurfaceView,val sRange:Float,val tRange:Float):B
 
     }
 
-    override fun initVertData() {
+    fun initVertData() {
         vCount=6
         val UNIT_SIZE=0.3f
         val vertices= floatArrayOf(
@@ -58,12 +64,13 @@ class TextureRect(mv:BaseOpenGl3SurfaceView,val sRange:Float,val tRange:Float):B
         mVertexBuffer.put(vertices)
         mVertexBuffer.position(0)
 
-        val texCoor= floatArrayOf(
+        Log.d(TextureRect::class.java.simpleName,"tRange $tRange sRange $sRange")
+        var texCoor= floatArrayOf(
             0f,0f,
-            0f, tRange,
-            sRange,tRange,
-            sRange,tRange,
-            sRange, 0f,
+            0f, this.tRange,
+            this.sRange,this.tRange,
+            this.sRange,this.tRange,
+            this.sRange, 0f,
             0f,0f
         )
         mTexCoorBuffer=ByteBuffer.allocateDirect(texCoor.size*4)
@@ -71,9 +78,6 @@ class TextureRect(mv:BaseOpenGl3SurfaceView,val sRange:Float,val tRange:Float):B
         mTexCoorBuffer.put(texCoor)
         mTexCoorBuffer.position(0)
 
-    }
-
-    override fun drawSelf() {
     }
 
     fun drawSelf(texId:Int){
@@ -91,6 +95,7 @@ class TextureRect(mv:BaseOpenGl3SurfaceView,val sRange:Float,val tRange:Float):B
             false,
             3*4,
             mVertexBuffer)
+
 
         GLES30.glVertexAttribPointer(
             maTexCoorHandle,
