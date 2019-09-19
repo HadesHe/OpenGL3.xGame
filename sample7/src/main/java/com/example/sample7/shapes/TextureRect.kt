@@ -3,15 +3,12 @@ package com.example.sample7.shapes
 import android.opengl.GLES30
 import android.opengl.Matrix
 import android.util.Log
-import com.example.baseopengl.BaseOpenGl3SurfaceView
-import com.example.baseopengl.BaseShape
-import com.example.baseopengl.MatrixState
-import com.example.baseopengl.ShaderUtil
+import com.example.baseopengl.*
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.nio.FloatBuffer
 
-class TextureRect(val mv:BaseOpenGl3SurfaceView,var sRange:Float,var tRange:Float){
+class TextureRect(mv:BaseOpenGl3SurfaceView,var sRange:Float,var tRange:Float):BaseTextureShape(mv){
     private var muMVPMatrixHandle: Int=0
     private var maTexCoorHandle: Int=0
     private var maPositionHandle: Int=0
@@ -30,12 +27,7 @@ class TextureRect(val mv:BaseOpenGl3SurfaceView,var sRange:Float,var tRange:Floa
         var mMMatrix=FloatArray(16)
     }
 
-    init {
-        initShader(mv)
-        initVertData()
-    }
-
-    fun initShader(mv: BaseOpenGl3SurfaceView) {
+    override fun initShader(mv: BaseOpenGl3SurfaceView) {
         mVertexShader= ShaderUtil.loadFromAssetsFile("vertex.glsl",mv.resources)!!
         mFragmentShader=ShaderUtil.loadFromAssetsFile("frag.glsl",mv.resources)!!
         mProgram=ShaderUtil.createProgram(mVertexShader,mFragmentShader)
@@ -46,7 +38,7 @@ class TextureRect(val mv:BaseOpenGl3SurfaceView,var sRange:Float,var tRange:Floa
 
     }
 
-    fun initVertData() {
+    override fun initVertData() {
         vCount=6
         val UNIT_SIZE=0.3f
         val vertices= floatArrayOf(

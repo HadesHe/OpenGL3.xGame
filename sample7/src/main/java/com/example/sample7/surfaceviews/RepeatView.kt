@@ -71,8 +71,11 @@ class RepeatView(context: Context):BaseOpenGl3SurfaceView(context) {
             GLES30.glClearColor(1f,1f,1f,1.0f)
 
             texRect[0]=TextureRect(this@RepeatView,1f,1f)
+            texRect[0]?.initData()
             texRect[1]=TextureRect(this@RepeatView,4f,2f)
+            texRect[1]?.initData()
             texRect[2]=TextureRect(this@RepeatView,4f,4f)
+            texRect[2]?.initData()
 
             GLES30.glEnable(GLES30.GL_DEPTH_TEST)
             textureCTId=initTexture(1)
