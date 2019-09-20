@@ -12,6 +12,10 @@ import java.nio.FloatBuffer
 import java.util.ArrayList
 
 class Ball(mv: BallSurfaceView) {
+    private var maLightLocationHandle: Int=0
+    private var maNormalHandle: Int=0
+    private var muMMatrixHandle: Int=0
+    private lateinit var mNormalBuffer: FloatBuffer
     private var muRHandle: Int=0
     private var muMVPMatrixHandle: Int=0
     private var maPositionHandle: Int=0
@@ -39,12 +43,15 @@ class Ball(mv: BallSurfaceView) {
 
         maPositionHandle=GLES30.glGetAttribLocation(mProgram,"aPosition")
         muMVPMatrixHandle=GLES30.glGetUniformLocation(mProgram,"uMVPMatrix")
+         muMMatrixHandle=GLES30.glGetUniformLocation(mProgram,"uMMatrix")
         muRHandle=GLES30.glGetUniformLocation(mProgram,"uR")
+         maNormalHandle=GLES30.glGetAttribLocation(mProgram,"aNormal")
+         maLightLocationHandle=GLES30.glGetUniformLocation(mProgram,"uLightLocation")
     }
 
     fun initVertData() {
         val alVertix = ArrayList<Float>()// ��Ŷ��������ArrayList
-        val angleSpan = 1// ������е�λ�зֵĽǶ�
+        val angleSpan = 10// ������е�λ�зֵĽǶ�
         var vAngle = -90
         while (vAngle < 90)
         // ��ֱ����angleSpan��һ��
@@ -143,6 +150,12 @@ class Ball(mv: BallSurfaceView) {
         mVertexBuffer.put(vertices)
         mVertexBuffer.position(0)
 
+        mNormalBuffer=ByteBuffer.allocateDirect(vertices.size*4)
+            .order(ByteOrder.nativeOrder()).asFloatBuffer()
+        mNormalBuffer.put(vertices)
+        mNormalBuffer.position(0)
+
+
     }
 
     fun drawSelf() {
@@ -152,10 +165,15 @@ class Ball(mv: BallSurfaceView) {
 
         GLES30.glUseProgram(mProgram)
         GLES30.glUniformMatrix4fv(muMVPMatrixHandle,1,false,MatrixState.getFinalMatrix(),0)
+        GLES30.glUniformMatrix4fv(muMMatrixHandle,1,false,MatrixState.getMMatrix(),0)
         GLES30.glUniform1f(muRHandle,r*UNIT_SIZE)
+        GLES30.glUniform3fv(maLightLocationHandle,1,MatrixState.lightPositionFB)
         GLES30.glVertexAttribPointer(maPositionHandle,3,GLES30.GL_FLOAT,
             false,3*4,mVertexBuffer)
+        GLES30.glVertexAttribPointer(maNormalHandle,3,GLES30.GL_FLOAT,false,
+            3*4,mNormalBuffer)
         GLES30.glEnableVertexAttribArray(maPositionHandle)
+        GLES30.glEnableVertexAttribArray(maNormalHandle)
         GLES30.glDrawArrays(GLES30.GL_TRIANGLES,0,vCount)
     }
 

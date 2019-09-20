@@ -17,4 +17,5 @@ abstract class BaseOpenGl3SurfaceView(context: Context) :GLSurfaceView(context){
     protected fun getGlSurfaceRenderMode()=GLSurfaceView.RENDERMODE_CONTINUOUSLY
 
     protected abstract fun getRender(): Renderer
+
 }

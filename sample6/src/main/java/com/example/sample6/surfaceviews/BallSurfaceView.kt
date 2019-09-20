@@ -16,6 +16,7 @@ class BallSurfaceView(context: Context) :GLSurfaceView(context){
     private var mPreviousX=0f
     private var mPreviousY=0f
     private lateinit var ball: Ball
+    var lightOffset=-4f
 
     init {
         setEGLContextClientVersion(3)
@@ -45,10 +46,20 @@ class BallSurfaceView(context: Context) :GLSurfaceView(context){
     inner class BallRender:Renderer{
         override fun onDrawFrame(gl: GL10?) {
             GLES30.glClear(GLES30.GL_DEPTH_BUFFER_BIT or GLES30.GL_COLOR_BUFFER_BIT)
+            MatrixState.setLightLocation(lightOffset,0f,1.5f)
             MatrixState.pushMatrix()
             MatrixState.pushMatrix()
+
+            MatrixState.translate(-1.2f,0f,0f)
             ball.drawSelf()
             MatrixState.popMatrix()
+
+            MatrixState.pushMatrix()
+            MatrixState.translate(1.2f,0f,0f)
+            ball.drawSelf()
+
+            MatrixState.popMatrix()
+
             MatrixState.popMatrix()
         }
 
@@ -56,7 +67,7 @@ class BallSurfaceView(context: Context) :GLSurfaceView(context){
             GLES30.glViewport(0,0,width, height)
             val ratio=width/height.toFloat()
             MatrixState.setProjectFrustum(-ratio,ratio,-1f,1f,20f,100f)
-            MatrixState.setCamera(0f,0f,30f,0f,0f,0f,0f,1f,0f)
+            MatrixState.setCamera(0f,0f,60f,0f,0f,0f,0f,1f,0f)
 //            MatrixState.setCamera(-32f,16f,90f,0f,0f,0f,0f,1.0f,0.0f)
             MatrixState.setInitStack()
         }
@@ -69,5 +80,7 @@ class BallSurfaceView(context: Context) :GLSurfaceView(context){
         }
 
     }
+
+
 
 }
