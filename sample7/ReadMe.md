@@ -41,3 +41,30 @@
 |:---|:----|
 |GL_TEXTURE_MIN_FILTER|当纹理图中一个像素对应到待映射图上的多个图元时（放大）|
 |GL_TEXTURE_MAG_FILTER|当纹理图中多个像素对应到待映射图上的一个图元时（缩小）|
+
+
+## 4. mipmap 纹理技术 ##
+- mipmap 的思想
+> 对远处的地形采用尺寸较小、分辨率低的纹理，近处的采用尺寸较大分辨率高的纹理
+
+- mipmap 基本代码
+
+```
+    //设置 MIN 情况为 mipmap 最近点采样
+    GLES30.glTexParameteri(GLES30.GL_TEXTURE_2D,GLES30.GL_TEXTURE_MIN_FILTER,GLES30.LINEAR_MIPMAP_NEAREST)
+    //设置 MAG 情况为 mipmap 线性采样
+    GLES30.glTexParameteri(GLES30.GL_TEXTURE_2D,GLES30.GL_TEXTURE_MAG_FILTER,GLES30.LINEAR_MIPMAP_LINEAR)
+    
+```
+
+|采样方式|说明|
+|:---|:----|
+|GL_NEAREST_MIPMAP_NEAREST|选择最临近的 mip 层，层内使用最近点采样|
+|GL_NEAREST_MIPMAP_LINEAR|在 mip 层之间使用线性插值，层内使用最近点采样|
+|GL_LINEAR_MIPMAP_NEAREST|选择最临近的 mip 层，层内使用线性采样|
+|GL_LINEAR_MIPMAP_LINEAR|在 mip 层之间使用线性插值，层内使用线性采样|
+
+
+## 5. 多重纹理与过程纹理 ##
+- 多重纹理：同一个图元采用多幅纹理图
+- 过程纹理：多重纹理变化的边界根据某种规则进行平滑过度

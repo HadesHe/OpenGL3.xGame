@@ -82,4 +82,13 @@ public object ShaderUtil {
 
         return result
     }
+
+    fun checkGlError(op:String){
+//        var error=GLES30.glGetError()
+//        while ((error) != GLES30.GL_NO_ERROR) {
+//            Log.e("ES30_ERROR", op + ": glError " + error)
+//            throw RuntimeException(op + ": glError " + error)
+//            error=GLES30.glGetError()
+//        }
+    }
 }
