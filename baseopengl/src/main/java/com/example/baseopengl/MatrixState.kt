@@ -10,6 +10,7 @@ import java.nio.FloatBuffer
  */
 public object MatrixState {
 
+    lateinit var cameraFB: FloatBuffer
     private var mProjectMatrix = FloatArray(16)
     private var mVMatrix = FloatArray(16)
     private var mMVPMatrix = FloatArray(16)
@@ -24,6 +25,10 @@ public object MatrixState {
 
     var statckTop=-1
     var mStack:Array<FloatArray> = Array(10){FloatArray(16)}
+
+    var lightLocationSun= floatArrayOf(0f,0f,0f)
+    var lightPositionFBSun=ByteBuffer.allocateDirect(3*4).order(ByteOrder.nativeOrder()).asFloatBuffer()
+
 
     fun setInitStack() {
         currMatrix= FloatArray(16)
@@ -56,6 +61,17 @@ public object MatrixState {
         upx: Float, upy: Float, upz: Float
     ) {
         Matrix.setLookAtM(mVMatrix, 0, cx, cy, cz, tx, ty, tz, upx, upy, upz)
+
+        val cameraLocation=FloatArray(3)
+        cameraLocation[0]=cx
+        cameraLocation[1]=cy
+        cameraLocation[2]=cz
+
+        cameraFB=ByteBuffer.allocateDirect(3*4)
+            .order(ByteOrder.nativeOrder()).asFloatBuffer()
+        cameraFB.put(cameraLocation)
+        cameraFB.position(0)
+
     }
 
     fun setProjectOrtho(
@@ -112,5 +128,17 @@ public object MatrixState {
             it.position(0)
         }
     }
+
+    fun setLightLocationSun(x: Float,y:Float,z:Float){
+        lightLocationSun[0]=x
+        lightLocationSun[1]=y
+        lightLocationSun[2]=z
+        lightPositionFBSun=ByteBuffer.allocateDirect(3*4)
+            .order(ByteOrder.nativeOrder()).asFloatBuffer()
+        lightPositionFBSun?.put(lightLocationSun)
+        lightPositionFBSun?.position(0)
+    }
+
+
 
 }

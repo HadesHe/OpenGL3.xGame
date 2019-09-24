@@ -21,7 +21,8 @@ class TetureItemActivity :AppCompatActivity(){
 
     private val contents= arrayListOf(
         ItemData(MainActivity::class.java,"Texture Simple"),
-        ItemData(RepeatActivity::class.java,"repeat texture")
+        ItemData(RepeatActivity::class.java,"repeat texture"),
+        ItemData(EarthActivity::class.java,"earth texture")
     )
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
