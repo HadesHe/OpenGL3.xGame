@@ -68,3 +68,22 @@
 ## 5. 多重纹理与过程纹理 ##
 - 多重纹理：同一个图元采用多幅纹理图
 - 过程纹理：多重纹理变化的边界根据某种规则进行平滑过度
+
+## 6. 压缩纹理 ##
+- 在游戏应用开发的准备阶段将各种形式（png、jpg）纹理采用特定的工具转换为特殊的压缩纹理格式，然后在应用程序运行时，直接将压缩格式的纹理数据送入纹理缓冲供纹理采样使用
+- 采用压缩格式减少了7/8的空间需求
+- 生成方法
+```
+    //Android SDK -> tools -> platform-tools -> etc1tools test.png --encode
+    //生成一张 test.pkm 的文件
+    
+    Input is=this.getResources().openRawResources(R.raw.test)
+        ETC1.loadTexture(
+            GLES30.GL_TEXTURE_2D,
+            0,
+            0,
+            GLE30.GL_RGB,
+            GLE30.GL_UNSiGNED_BYTE,
+            is
+        )
+```
