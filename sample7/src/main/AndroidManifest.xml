@@ -21,6 +21,7 @@
 
         </activity>
         <activity android:name=".EarthActivity"/>
+        <activity android:name=".PointActivity"/>
     </application>
 
 </manifest>
