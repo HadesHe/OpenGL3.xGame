@@ -5,7 +5,7 @@ import com.example.baseopengl.BaseOpenGl3SurfaceView
 import com.example.baseopengl.MatrixState
 import com.example.baseopengl.abstracts.AbstractRender
 import com.example.sample7.R
-import com.example.sample7.shapes.Point
+import com.example.sample7.shapes.Points
 
 class PointView(context: Context) :BaseOpenGl3SurfaceView(context){
     override fun getRender(): Renderer {
@@ -14,10 +14,10 @@ class PointView(context: Context) :BaseOpenGl3SurfaceView(context){
 
     inner class PointRender: AbstractRender() {
         private var texId: Int=0
-        private lateinit var point: Point
+        private lateinit var point: Points
 
         override fun onRenderCreated() {
-            point=Point(this@PointView)
+            point=Points(this@PointView)
             point.initData()
             texId=initTexture(context, R.raw.fp)
 
