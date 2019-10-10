@@ -22,6 +22,7 @@
         </activity>
         <activity android:name=".EarthActivity"/>
         <activity android:name=".PointActivity"/>
+        <activity android:name=".StairsActivity"/>
     </application>
 
 </manifest>

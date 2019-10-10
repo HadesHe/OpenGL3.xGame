@@ -23,7 +23,8 @@ class TetureItemActivity :AppCompatActivity(){
         ItemData(MainActivity::class.java,"Texture Simple"),
         ItemData(RepeatActivity::class.java,"repeat texture"),
         ItemData(EarthActivity::class.java,"earth texture"),
-        ItemData(PointActivity::class.java,"point ")
+        ItemData(PointActivity::class.java,"point "),
+        ItemData(StairsActivity::class.java,"stair")
     )
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -23,7 +23,7 @@ class PointView(context: Context) :BaseOpenGl3SurfaceView(context){
 
         }
 
-        override fun onRenderChanged() {
+        override fun onRenderChanged(width:Int,height:Int) {
             val ratio=width/height.toFloat()
             MatrixState.setProjectFrustum(-ratio,ratio,-1f,1f,20f,100f)
             MatrixState.setCamera(0f,8f,30f,0f,0f,0f,0f,1f,0f)

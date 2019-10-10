@@ -13,10 +13,27 @@ abstract class AbstractShape(val mv: BaseOpenGl3SurfaceView) {
 
     fun initData(){
         initVertexBuffer()
+
+        //是否需要第二组顶点坐标
+        if(needNormal()){
+            initNormalVertexBuffer()
+
+        }
         initProgram()
 
         initLocationHandle()
     }
+
+    /**
+     * 分配第二组顶点 buffer
+     * needNormal 为 true 时有效,默认不分配
+     */
+    open protected fun initNormalVertexBuffer() {
+
+
+    }
+
+    open protected fun needNormal(): Boolean =false
 
     private fun initVertexBuffer() {
         mVertexBuffer=ByteBuffer.allocateDirect(getVertice().size*4)
