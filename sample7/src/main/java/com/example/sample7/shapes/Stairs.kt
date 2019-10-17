@@ -449,11 +449,11 @@ class Stairs(mv:BaseOpenGl3SurfaceView) :AbstractShape(mv){
     }
 
     override fun getVertexName(): String {
-        return "vertex_stairs.glsl"
+        return "vertex_stair.glsl"
     }
 
     override fun getFragName(): String {
-        return "frag_stairs.glsl"
+        return "frag_stair.glsl"
     }
 
     override fun initLocationHandle() {

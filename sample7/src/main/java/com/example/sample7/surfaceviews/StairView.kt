@@ -94,7 +94,7 @@ class StairView( context: Context) :BaseOpenGl3SurfaceView(context){
         }
 
         override fun onRenderChanged(width: Int, height: Int) {
-            val ratio=width/height
+            val ratio=width/height.toFloat()
             MatrixState.setProjectFrustum(-0.3f*ratio,0.3f*ratio,-0.3f,0.3f,2f,100f)
             MatrixState.setCamera(0f,0f,0f,0f,0f,-1f,0f,1f,0f)
         }
