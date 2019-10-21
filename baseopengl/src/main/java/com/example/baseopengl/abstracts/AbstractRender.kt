@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory
 import android.opengl.GLES30
 import android.opengl.GLSurfaceView
 import android.opengl.GLUtils
+import com.example.baseopengl.convertPicsToBuffer
 import java.io.IOException
 import java.nio.ByteBuffer
 import javax.microedition.khronos.egl.EGLConfig
@@ -104,6 +105,42 @@ import javax.microedition.khronos.opengles.GL10
          )
 
          return textureId
+     }
+
+     /**
+      * pic:加载纹理数组
+      * width:纹理宽度
+      * height:纹理高度
+      */
+     protected fun initTextureArray(context: Context,pidId: IntArray, width: Int, height: Int): Int {
+
+         val textures=IntArray(1)
+         GLES30.glGenTextures(1,textures,0)
+         val textureId=textures[0]
+         GLES30.glBindTexture(GLES30.GL_TEXTURE_2D_ARRAY,textureId)
+         GLES30.glTexParameterf(GLES30.GL_TEXTURE_2D_ARRAY,GLES30.GL_TEXTURE_WRAP_S, GLES30.GL_CLAMP_TO_EDGE.toFloat())
+         GLES30.glTexParameterf(GLES30.GL_TEXTURE_2D_ARRAY,GLES30.GL_TEXTURE_WRAP_T, GLES30.GL_CLAMP_TO_EDGE.toFloat())
+         GLES30.glTexParameterf(GLES30.GL_TEXTURE_2D_ARRAY,GLES30.GL_TEXTURE_WRAP_R, GLES30.GL_CLAMP_TO_EDGE.toFloat())
+         GLES30.glTexParameterf(GLES30.GL_TEXTURE_2D_ARRAY,GLES30.GL_TEXTURE_MIN_FILTER, GLES30.GL_NEAREST.toFloat())
+         GLES30.glTexParameterf(GLES30.GL_TEXTURE_2D_ARRAY,GLES30.GL_TEXTURE_MAG_FILTER, GLES30.GL_LINEAR.toFloat())
+
+         val texels= convertPicsToBuffer(context.resources,
+             pidId,width,height)!!
+         texels.position(0)
+         GLES30.glTexImage3D(
+             GLES30.GL_TEXTURE_2D_ARRAY,
+             0,
+             GLES30.GL_RGBA,
+             width,
+             height,
+             pidId.size,
+             0,
+             GLES30.GL_RGBA,
+             GLES30.GL_UNSIGNED_BYTE,
+             texels
+         )
+         return textureId
+
      }
 
  }
