@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.example.sample7.activities.TwoDPointActivity
 import com.example.sample7.datas.ItemData
 import kotlinx.android.synthetic.main.layout.view.*
 
@@ -22,7 +23,10 @@ class TetureItemActivity :AppCompatActivity(){
     private val contents= arrayListOf(
         ItemData(MainActivity::class.java,"Texture Simple"),
         ItemData(RepeatActivity::class.java,"repeat texture"),
-        ItemData(EarthActivity::class.java,"earth texture")
+        ItemData(EarthActivity::class.java,"earth texture"),
+        ItemData(PointActivity::class.java,"point "),
+        ItemData(StairsActivity::class.java,"stair"),
+        ItemData(TwoDPointActivity::class.java,"2DPoint")
     )
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -68,3 +68,34 @@
 ## 5. 多重纹理与过程纹理 ##
 - 多重纹理：同一个图元采用多幅纹理图
 - 过程纹理：多重纹理变化的边界根据某种规则进行平滑过度
+
+## 6. 压缩纹理 ##
+- 在游戏应用开发的准备阶段将各种形式（png、jpg）纹理采用特定的工具转换为特殊的压缩纹理格式，然后在应用程序运行时，直接将压缩格式的纹理数据送入纹理缓冲供纹理采样使用
+- 采用压缩格式减少了7/8的空间需求
+- 生成方法
+```
+    //Android SDK -> tools -> platform-tools -> etc1tools test.png --encode
+    //生成一张 test.pkm 的文件
+    
+    Input is=this.getResources().openRawResources(R.raw.test)
+        ETC1.loadTexture(
+            GLES30.GL_TEXTURE_2D,
+            0,
+            0,
+            GLE30.GL_RGB,
+            GLE30.GL_UNSiGNED_BYTE,
+            is
+        )
+```
+## 7. 点精灵 ##
+- 在绘制点时管线自动用指定大小的纹理矩形代替
+- 适合需要绘制大量小的纹理矩形的场景
+
+## 8. 3D 纹理 ##
+> 楼梯
+- S 坐标分量 代表横向
+- T 坐标分量 代表纵向
+- P 坐标分量 代表深度
+
+## 9. 2D 纹理数组（TwoDArrayActivity） ##
+> 针对同一个着色器中需要使用多个2D 纹理的情况
