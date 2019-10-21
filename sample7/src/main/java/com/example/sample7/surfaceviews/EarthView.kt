@@ -120,7 +120,7 @@ class EarthView(context: Context) :BaseOpenGl3SurfaceView(context){
                     cAngle=(cAngle+0.2f)%360
 
                     try {
-                        Thread.sleep(100)
+                        Thread.sleep(50)
                     }catch (e:InterruptedException){
                         e.printStackTrace()
                     }
