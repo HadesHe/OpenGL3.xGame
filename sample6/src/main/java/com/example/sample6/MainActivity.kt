@@ -1,14 +1,11 @@
 package com.example.sample6
 
-import android.content.Context
-import android.opengl.GLSurfaceView
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Window
 import android.view.WindowManager
 import android.widget.LinearLayout
 import android.widget.SeekBar
-import com.example.baseopengl.BaseOpenGl3Activity
 import com.example.sample6.surfaceviews.BallSurfaceView
 
 class MainActivity : AppCompatActivity() {

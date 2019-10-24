@@ -1,4 +1,4 @@
-package com.example.baseopengl
+package com.example.baseopengl.baseactivities
 
 import android.content.Context
 import android.content.pm.ActivityInfo
@@ -8,6 +8,9 @@ import android.support.v7.app.AppCompatActivity
 import android.view.Window
 import android.view.WindowManager
 
+/**
+ * only GLSurfaceView
+ */
 abstract class BaseOpenGl3Activity :AppCompatActivity(){
 
 
