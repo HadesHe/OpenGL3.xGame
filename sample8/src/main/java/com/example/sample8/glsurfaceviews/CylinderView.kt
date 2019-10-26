@@ -12,7 +12,7 @@ class CylinderView(context:Context) :BaseOpenGl3SurfaceView(context){
 
     private var mPreviousX=0f
     private var mPreviousY=0f
-    private val TOUCH_SCALE_FACTOR=10f
+    private val TOUCH_SCALE_FACTOR=180/320.toFloat()
     private var mRenderer:CylinderRender?=null
 
 
@@ -25,8 +25,8 @@ class CylinderView(context:Context) :BaseOpenGl3SurfaceView(context){
                 MotionEvent.ACTION_MOVE->{
                     val dy=y-mPreviousY
                     val dx=x-mPreviousX
-                    mRenderer?.cyclinder?.yAngel=dx*TOUCH_SCALE_FACTOR
-                    mRenderer?.cyclinder?.xAngel=dy*TOUCH_SCALE_FACTOR
+                    mRenderer?.cyclinder?.yAngel = mRenderer?.cyclinder?.yAngel?.plus(dx*TOUCH_SCALE_FACTOR)!!
+                    mRenderer?.cyclinder?.xAngel = mRenderer?.cyclinder?.xAngel?.plus(dy*TOUCH_SCALE_FACTOR)!!
 
                 }
             }
@@ -41,13 +41,16 @@ class CylinderView(context:Context) :BaseOpenGl3SurfaceView(context){
     }
 
     inner class CylinderRender:AbstractRender(){
+        private var textureId1=0
         var cyclinder: Cylinder?=null
         private var textureId=0
 
         override fun onRenderCreated() {
             MatrixState.setInitStack()
             textureId=initTexture(context, R.drawable.android_robot0)
-            cyclinder=Cylinder(this@CylinderView,1f,1.2f,3.9f,36,textureId,textureId,textureId)
+            textureId1=initTexture(context, R.drawable.yuner)
+
+            cyclinder=Cylinder(this@CylinderView,1f,1.2f,3.9f,36,textureId1,textureId1,textureId)
         }
 
         override fun onRenderChanged(width: Int, height: Int) {
