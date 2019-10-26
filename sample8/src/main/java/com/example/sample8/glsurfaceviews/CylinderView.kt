@@ -1,25 +1,69 @@
 package com.example.sample8.glsurfaceviews
 
 import android.content.Context
+import android.view.MotionEvent
 import com.example.baseopengl.BaseOpenGl3SurfaceView
+import com.example.baseopengl.MatrixState
 import com.example.baseopengl.abstracts.AbstractRender
+import com.example.sample8.R
+import com.example.sample8.shapes.Cylinder
 
 class CylinderView(context:Context) :BaseOpenGl3SurfaceView(context){
+
+    private var mPreviousX=0f
+    private var mPreviousY=0f
+    private val TOUCH_SCALE_FACTOR=10f
+    private var mRenderer:CylinderRender?=null
+
+
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        event?.let {
+            val y=it.y
+            val x=it.x
+
+            when(it.action){
+                MotionEvent.ACTION_MOVE->{
+                    val dy=y-mPreviousY
+                    val dx=x-mPreviousX
+                    mRenderer?.cyclinder?.yAngel=dx*TOUCH_SCALE_FACTOR
+                    mRenderer?.cyclinder?.xAngel=dy*TOUCH_SCALE_FACTOR
+
+                }
+            }
+            mPreviousX=x
+            mPreviousY=y
+        }
+        return true
+    }
     override fun getRender(): Renderer {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        mRenderer=CylinderRender()
+        return mRenderer!!
     }
 
     inner class CylinderRender:AbstractRender(){
+        var cyclinder: Cylinder?=null
+        private var textureId=0
+
         override fun onRenderCreated() {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            MatrixState.setInitStack()
+            textureId=initTexture(context, R.drawable.android_robot0)
+            cyclinder=Cylinder(this@CylinderView,1f,1.2f,3.9f,36,textureId,textureId,textureId)
         }
 
         override fun onRenderChanged(width: Int, height: Int) {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            val ratio=width/height.toFloat()
+            MatrixState.setProjectFrustum(-ratio,ratio,-1f,1f,4f,100f)
+            MatrixState.setCamera(0f,0f,8.0f,0f,0f,0f,0f,1f,0f)
+            MatrixState.setLightLocation(10f,0f,-10f)
+
+
         }
 
         override fun onRenderDrawed() {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            MatrixState.pushMatrix()
+            MatrixState.translate(0f,0f,-10f)
+            cyclinder?.drawSelf()
+            MatrixState.popMatrix()
         }
 
     }

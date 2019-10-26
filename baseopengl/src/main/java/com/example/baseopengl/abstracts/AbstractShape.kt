@@ -1,5 +1,6 @@
 package com.example.baseopengl.abstracts
 
+import android.util.Log
 import com.example.baseopengl.BaseOpenGl3SurfaceView
 import com.example.baseopengl.ShaderUtil
 import java.nio.ByteBuffer
@@ -10,6 +11,7 @@ abstract class AbstractShape(val mv: BaseOpenGl3SurfaceView) {
 
     protected var mProgram: Int=0
     protected lateinit var mVertexBuffer: FloatBuffer
+    private val TAG=AbstractShape::class.java.simpleName
 
     fun initData(){
         initVertexBuffer()
@@ -43,9 +45,18 @@ abstract class AbstractShape(val mv: BaseOpenGl3SurfaceView) {
     }
 
     private fun initProgram() {
+        if(!checkAssetFileExist(getVertexName())|| !checkAssetFileExist(getFragName())){
+            Log.d(TAG,"${getVertexName()} or ${getFragName()} not exist")
+            return
+        }
+
         val mVertexShader= ShaderUtil.loadFromAssetsFile(getVertexName(), mv.resources)!!
         val mFragShader= ShaderUtil.loadFromAssetsFile(getFragName(), mv.resources)!!
         mProgram= ShaderUtil.createProgram(mVertexShader, mFragShader)
+    }
+
+    private fun checkAssetFileExist(vertexName: String):Boolean {
+        return mv.resources.assets.list("").contains(vertexName)
     }
 
     abstract fun getVertice():FloatArray
