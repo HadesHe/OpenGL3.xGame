@@ -3,6 +3,8 @@ package com.example.sample8.shapes
 import android.opengl.GLES30
 import com.example.baseopengl.BaseOpenGl3SurfaceView
 import com.example.baseopengl.MatrixState
+import com.example.baseopengl.ShaderUtil
+import com.example.baseopengl.ShapeUtil
 import com.example.baseopengl.abstracts.AbstractShape
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
@@ -27,33 +29,9 @@ class Circle(mv:BaseOpenGl3SurfaceView,val scale:Float,val r:Float,val n:Int) :A
 
     override fun getVertice(): FloatArray {
         val R=r*scale
-        val angdegSpan=360.0f/n
         vCount=3*n
 
-        val vertices=FloatArray(vCount*3)
-        var count=0
-        var angdeg = 0f
-        while (Math.ceil(angdeg.toDouble()) < 360) {//生成每个三角形的顶点数据
-            val angrad = Math.toRadians(angdeg.toDouble())//当前弧度
-            val angradNext = Math.toRadians((angdeg + angdegSpan).toDouble())//下一弧度
-            //圆面中心点的顶点坐标
-            vertices[count++] = 0f//顶点坐标
-            vertices[count++] = 0f
-            vertices[count++] = 0f
-            //当前弧度对应的边缘顶点坐标
-            vertices[count++] = (-R * Math.sin(angrad)).toFloat()//顶点坐标
-            vertices[count++] = (R * Math.cos(angrad)).toFloat()
-            vertices[count++] = 0f
-            //当前弧度对应的边缘顶点纹理坐标
-            //下一弧度对应的边缘顶点坐标
-            vertices[count++] = (-R * Math.sin(angradNext)).toFloat()//顶点坐标
-            vertices[count++] = (R* Math.cos(angradNext)).toFloat()
-            vertices[count++] = 0f
-            //下一弧度对应的边缘顶点纹理坐标
-            angdeg += angdegSpan
-        }
-
-        return vertices
+        return ShapeUtil.get3DCircleVertices(vCount*3,n,R)!!
 
     }
 
