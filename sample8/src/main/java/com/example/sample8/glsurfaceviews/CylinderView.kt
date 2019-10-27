@@ -43,6 +43,7 @@ class CylinderView(context:Context) :BaseOpenGl3SurfaceView(context){
     inner class CylinderRender:AbstractRender(){
         private var textureId1=0
         var cyclinder: Cylinder?=null
+        // TODO: 2019-10-27 add CylinderL
         private var textureId=0
 
         override fun onRenderCreated() {
